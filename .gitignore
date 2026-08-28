@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Deployment and local logs
+.vercel/
+*.log
+
+# Build and tool output
+dist/
+build/
+*.tsbuildinfo
+.cache/
+replit.md
+.git
+.conversation/
+.agents/
+.replit
+.replitignore
+
+
+# Runtime data and user-uploaded files
+data/*.json
+!data/.gitkeep
+artifacts/*/data/*.json
+!artifacts/*/data/.gitkeep
+uploads/
+artifacts/*/uploads/
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/

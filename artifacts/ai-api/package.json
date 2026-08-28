@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/ai-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node frontend-server.js",
+    "start": "node frontend-server.js",
+    "build": "node -e \"require('fs').mkdirSync('dist', { recursive: true })\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

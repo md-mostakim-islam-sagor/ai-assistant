@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<link rel="icon" type="image/png" href="/mostakim_favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="/dashboard/dashboard.css">
+</head>
+<body>
+    <div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;">
+        <div class="card" style="width:100%; max-width:380px; padding:32px;">
+            <div style="text-align:center; margin-bottom:24px;">
+                <div class="brand-mark" style="margin:0 auto 14px;">
+                    <img src="/mostakim_favicon.png" alt="Mostakim logo" class="brand-logo">
+                </div>
+                <h1 style="font-size:20px; font-weight:700; margin:0 0 4px;">Admin Panel</h1>
+                <p style="font-size:13px; color:#8a8a8f; margin:0;">Sign in to manaAI • AI</p>
+            </div>
+
+            <div id="error-box" class="error-box" style="display:none; margin-bottom:16px;"></div>
+
+            <form id="login-form">
+                <div style="margin-bottom:14px;">
+                    <label class="label">Username</label>
+                    <input type="text" id="username" autocomplete="username" required>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label class="label">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" id="login-btn" class="btn-primary" style="width:100%;">Sign In</button>
+            </form>
+
+            <p style="font-size:11px; color:#5a5a5f; text-align:center; margin-top:20px;">
+                fast & secure login system.
+            </p>
+        </div>
+    </div>
+    <script src="/dashboard/login.js"></script>
+</body>
+</html>

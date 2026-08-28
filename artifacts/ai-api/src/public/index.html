@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 2.0</title>
+    <link rel="icon" type="image/png" href="/mostakim_favicon.png">
+    <link rel="apple-touch-icon" href="/mostakim_favicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="relative flex flex-col min-h-screen w-full bg-[#030407] font-sans">
+
+    <div class="fixed top-4 left-4 z-50">
+        <button id="sidebar-toggle" class="p-2 rounded-full bg-white/5 border border-white/10 text-[#8a8a8f] hover:text-white backdrop-blur-md shadow-lg transition-all active:scale-95">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity"></div>
+
+    <div id="sidebar" class="fixed top-0 left-0 w-[280px] h-full bg-[#121214] border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="p-4 border-b border-white/10 flex justify-between items-center">
+            <h2 class="text-white font-semibold flex items-center gap-2">
+                <i data-lucide="history" class="w-4 h-4 text-red-500"></i> Chats
+            </h2>
+            <div class="flex items-center gap-2">
+                <button onclick="newChat()" class="p-1.5 rounded-md bg-red-600/10 text-red-500 hover:bg-red-600/20 transition-colors" title="New Chat">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                </button>
+                <button id="sidebar-close" class="p-1.5 rounded-md text-[#8a8a8f] hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        <div id="history-list" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
+        <div class="p-4 border-t border-white/10">
+            <button onclick="clearHistory()" class="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors">
+                <i data-lucide="trash-2" class="w-4 h-4"></i> Clear History
+            </button>
+        </div>
+    </div>
+
+    <div id="hero-bg" class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0 fixed">
+        <div class="absolute inset-0 bg-[#030407]"></div>
+        <div class="absolute left-1/2 -translate-x-1/2 w-[4000px] h-[1800px] sm:w-[6000px]" style="background: radial-gradient(circle at center 800px, rgba(20, 136, 252, 0.8) 0%, rgba(20, 136, 252, 0.35) 14%, rgba(20, 136, 252, 0.18) 18%, rgba(20, 136, 252, 0.08) 22%, rgba(17, 17, 20, 0.2) 25%);"></div>
+        <div class="absolute top-[175px] left-1/2 w-[1600px] h-[1600px] sm:top-1/2 sm:w-[3043px] sm:h-[2865px]" style="transform: translate(-50%) rotate(180deg);">
+            <div class="absolute w-full h-full rounded-full -mt-[13px]" style="background: radial-gradient(43.89% 25.74% at 50.02% 97.24%, #111114 0%, #030407 100%); border: 16px solid white; z-index: 5;"></div>
+            <div class="absolute w-full h-full rounded-full bg-[#030407] -mt-[11px]" style="border: 23px solid #ffb3cc; z-index: 4;"></div>
+            <div class="absolute w-full h-full rounded-full bg-[#030407] -mt-[8px]" style="border: 23px solid #ff80a6; z-index: 3;"></div>
+            <div class="absolute w-full h-full rounded-full bg-[#030407] -mt-[4px]" style="border: 23px solid #ff4d79; z-index: 2;"></div>
+            <div class="absolute w-full h-full rounded-full bg-[#030407]" style="border: 20px solid #cc0029; box-shadow: 0 -15px 24.8px rgba(204, 0, 41, 0.6); z-index: 1;"></div>
+        </div>
+    </div>
+
+    <div id="main-container" class="relative z-10 flex flex-col w-full max-w-4xl mx-auto p-4 pb-[160px] pt-16 sm:pt-6 transition-all duration-700 min-h-screen">
+        <div id="hero-section" class="text-center mb-8 m-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
+                Welcome to <span id="site-name-display" class="bg-gradient-to-b from-[#ff3366] via-[#ff3366] to-white bg-clip-text text-transparent italic"></span> AI
+            </h1>
+            <p class="text-base font-medium sm:text-lg text-[#8a8a8f]">Experience the most powerful free AI for text and images.</p>
+        </div>
+
+        <div id="chat-history" class="hidden w-full mb-0 space-y-6 pr-2"></div>
+
+        <div id="loading-indicator" class="hidden flex justify-start mb-4">
+            <div class="bg-[#0b0d18] border border-white/10 rounded-2xl px-5 py-4 flex gap-1.5 items-center">
+                <div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div>
+            </div>
+        </div>
+
+        <div class="mt-auto"></div>
+
+        <div id="input-section" class="fixed -bottom-6 left-0 right-0 w-full bg-gradient-to-t from-[#030407] via-[#030407] to-transparent pt-20 pb-[48px] px-4 z-50 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+            <div class="relative w-full max-w-[680px] mx-auto">
+                <div class="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none"></div>
+                <div class="relative rounded-2xl bg-[#0b0d18] ring-1 ring-white/[0.08] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_2px_20px_rgba(0,0,0,0.4)]">
+                    <div id="attachment-list" class="hidden px-4 pt-3 flex flex-wrap gap-2"></div>
+                    <div class="relative">
+                        <textarea id="user-input" placeholder="What do you want to build or ask?" class="w-full resize-none bg-transparent text-[15px] text-white placeholder-[#5a5a5f] px-5 pt-5 pb-3 focus:outline-none min-h-[80px] max-h-[200px] disabled:opacity-50" style="height: 80px;"></textarea>
+                    </div>
+                    <div class="flex items-center justify-between px-3 pb-3 pt-1">
+                        <div class="flex items-center gap-1">
+                            <div class="relative">
+                                <input id="file-input" type="file" multiple accept="*/*" class="hidden" />
+                                <button id="attachment-btn" type="button" title="Attach files" aria-label="Attach files" class="flex items-center justify-center w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.12] text-[#8a8a8f] hover:text-white transition-all duration-200 active:scale-95">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <div class="relative" id="model-selector-container">
+                                <button id="model-selector-btn" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 text-[#8a8a8f] hover:text-white hover:bg-white/5 active:scale-95">
+                                    <i id="selected-icon" data-lucide="zap" class="w-4 h-4 text-red-500"></i>
+                                    <span id="selected-name">Gemini 3.5 Flash</span>
+                                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <div id="model-dropdown" class="hidden absolute bottom-full left-0 mb-2 z-50 min-w-[240px] bg-[#07080f]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
+                                    <div class="p-1.5" id="dropdown-items">
+                                        <div class="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#5a5a5f]">Select AI Model</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="relative hidden" id="size-selector-container">
+                                <button id="size-selector-btn" class="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium text-[#6a6a6f] hover:text-white hover:bg-white/5 transition-all duration-200">
+                                    <i data-lucide="square" id="size-icon" class="w-4 h-4"></i>
+                                    <span id="size-name" class="hidden sm:inline">1:1 Square</span>
+                                </button>
+                                <div id="size-dropdown" class="hidden absolute bottom-full right-0 mb-2 z-50 min-w-[160px] bg-[#07080f]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
+                                    <div class="p-1.5" id="size-items">
+                                        <div class="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#5a5a5f]">Select Image Size</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="send-btn" class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-[#ff0033] hover:bg-[#ff1a47] text-white transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-[0_0_20px_rgba(255,0,51,0.3)]" disabled>
+                                <span class="hidden sm:inline">Send</span>
+                                <i data-lucide="send-horizontal" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

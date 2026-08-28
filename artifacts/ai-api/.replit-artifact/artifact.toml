@@ -1,0 +1,29 @@
+kind = "web"
+previewPath = "/"
+title = "AI API Dashboard"
+description = "An imported AI 2.0 chat and image generation web app with an admin dashboard, usage tracking, and Gemini-backed API routes."
+version = "1.0.0"
+id = "artifacts/ai-api"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22742
+
+[services.development]
+run = "pnpm --filter @workspace/ai-api run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ai-api", "run", "build" ]
+
+[services.production.run]
+args = [ "node", "artifacts/ai-api/frontend-server.js" ]
+
+[services.production.run.env]
+PORT = "22742"
+NODE_ENV = "production"
+
+[services.env]
+PORT = "22742"
+BASE_PATH = "/"

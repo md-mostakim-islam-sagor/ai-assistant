@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - AI 2.0</title>
+<link rel="icon" type="image/png" href="/mostakim_favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="/dashboard/dashboard.css">
+</head>
+<body>
+    <div style="max-width:900px; margin:0 auto; padding:20px 16px 60px;">
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; padding-top:8px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:38px; height:38px; border-radius:10px; background:rgba(255,0,51,0.12); display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="shield" style="width:20px; height:20px; color:#ff3366;"></i>
+                </div>
+                <div>
+                    <h1 style="font-size:17px; font-weight:700; margin:0;">Admin Dashboard</h1>
+                    <p style="font-size:12px; color:#8a8a8f; margin:0;" id="welcome-text">Loading...</p>
+                </div>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <a href="/" style="text-decoration:none;"><button class="btn-secondary">View Site</button></a>
+                <button class="btn-secondary" id="logout-btn">Logout</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:28px;">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">–</div>
+                <div class="stat-label">Total API Calls</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-chat">–</div>
+                <div class="stat-label">Chat Calls</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-image">–</div>
+                <div class="stat-label">Image Calls</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-users">–</div>
+                <div class="stat-label">Unique Users</div>
+            </div>
+        </div>
+
+        <!-- API Key -->
+        <div class="card" style="padding:22px; margin-bottom:20px;">
+            <h2 style="font-size:15px; font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:8px;">
+                <i data-lucide="key" style="width:16px; height:16px; color:#ff3366;"></i> Gemini API Key
+            </h2>
+            <p style="font-size:12px; color:#8a8a8f; margin:0 0 14px;">
+                Current key: <code id="masked-key" style="color:#d0d0d5;">–</code>
+            </p>
+            <div id="apikey-msg" style="display:none; margin-bottom:12px;"></div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <input type="text" id="apikey-input" placeholder="Paste new Gemini API key" style="flex:1; min-width:220px;">
+                <button class="btn-primary" id="apikey-save">Update Key</button>
+            </div>
+            <p style="font-size:11px; color:#5a5a5f; margin-top:10px;">
+                Priority: Admin override → Environment variable → config.js hardcoded value.
+            </p>
+        </div>
+
+        <!-- Recent activity -->
+        <div class="card" style="padding:22px; margin-bottom:20px;">
+            <h2 style="font-size:15px; font-weight:600; margin:0 0 14px; display:flex; align-items:center; gap:8px;">
+                <i data-lucide="activity" style="width:16px; height:16px; color:#ff3366;"></i> Recent Activity
+            </h2>
+            <div id="recent-list" style="display:flex; flex-direction:column; gap:8px; max-height:260px; overflow-y:auto;">
+                <p style="font-size:13px; color:#5a5a5f;">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Credentials -->
+        <div class="card" style="padding:22px;">
+            <h2 style="font-size:15px; font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:8px;">
+                <i data-lucide="lock" style="width:16px; height:16px; color:#ff3366;"></i> Change Admin Login
+            </h2>
+            <p style="font-size:12px; color:#8a8a8f; margin:0 0 14px;">Update your username and/or password.</p>
+            <div id="cred-msg" style="display:none; margin-bottom:12px;"></div>
+            <form id="cred-form">
+                <div style="margin-bottom:12px;">
+                    <label class="label">Current Password (required)</label>
+                    <input type="password" id="current-password" required>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+                    <div>
+                        <label class="label">New Username (optional)</label>
+                        <input type="text" id="new-username" placeholder="leave blank to keep">
+                    </div>
+                    <div>
+                        <label class="label">New Password (optional)</label>
+                        <input type="password" id="new-password" placeholder="leave blank to keep">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="/dashboard/admin.js"></script>
+</body>
+</html>
